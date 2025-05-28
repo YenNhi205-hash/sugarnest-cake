@@ -1,5 +1,9 @@
-﻿namespace Application.Features.Categories.Queries;
+﻿using Application.DTOs;
+using MediatR;
+using Shared.Models;
 
-public class GetAllCategoriesQuery
+namespace Application.Features.Categories.Queries;
+
+public class GetAllCategoriesQuery : IRequest<ApiResponse<List<CategoryDTO>>>
 {
 }

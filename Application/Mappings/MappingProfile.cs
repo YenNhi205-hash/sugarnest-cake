@@ -1,5 +1,13 @@
-﻿namespace Application.Mappings;
+﻿using Application.DTOs;
+using AutoMapper;
+using Domain.Entities;
 
-public class MappingProfile
+namespace Application.Mappings;
+
+public class MappingProfile : Profile
 {
+    public MappingProfile()
+    {
+        CreateMap<Category, CategoryDTO>();
+    }
 }

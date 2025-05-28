@@ -1,7 +1,8 @@
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
-
+using Application;
+using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,9 @@ builder.Services.AddDbContext<SugarNestDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"), sqlOptions => sqlOptions.EnableRetryOnFailure());
 });
+
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 
 var app = builder.Build();
