@@ -9,7 +9,7 @@ public interface ILastUpdatedTrackable
     /// <summary>
     /// The date and time the entity was last updated.
     /// </summary>
-    DateTimeOffset LastUpdatedAt { get; set; }
+    DateTimeOffset? LastUpdatedAt { get; set; }
 
     /// <summary>
     /// The identifier (e.g., username or user ID) of the user who last updated the entity.

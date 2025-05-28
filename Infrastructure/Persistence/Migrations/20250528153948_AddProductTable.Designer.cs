@@ -4,6 +4,7 @@ using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(SugarNestDbContext))]
-    partial class SugarNestDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250528153948_AddProductTable")]
+    partial class AddProductTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,7 +27,7 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
-                    b.Property<Guid>("CategoryId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -47,7 +50,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset?>("LastUpdatedAt")
+                    b.Property<DateTimeOffset>("LastUpdatedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("LastUpdatedBy")
@@ -62,7 +65,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.HasKey("CategoryId");
+                    b.HasKey("Id");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -72,7 +75,7 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
                 {
-                    b.Property<Guid>("ProductId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -102,7 +105,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset?>("LastUpdatedAt")
+                    b.Property<DateTimeOffset>("LastUpdatedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("LastUpdatedBy")
@@ -120,7 +123,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18, 2)");
 
-                    b.HasKey("ProductId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
@@ -128,51 +131,6 @@ namespace Infrastructure.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("Domain.Entities.ProductDiscount", b =>
-                {
-                    b.Property<Guid>("ProductDiscountId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset>("EndTime")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<decimal>("HardValue")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LastUpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("LastUpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PercentValue")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset>("StartTime")
-                        .HasColumnType("datetimeoffset");
-
-                    b.HasKey("ProductDiscountId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("IsActive", "StartTime", "EndTime");
-
-                    b.ToTable("ProductDiscounts");
                 });
 
             modelBuilder.Entity("Domain.Entities.Product", b =>
@@ -185,24 +143,9 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Domain.Entities.ProductDiscount", b =>
-                {
-                    b.HasOne("Domain.Entities.Product", "Product")
-                        .WithMany("ProductDiscounts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Product", b =>
-                {
-                    b.Navigation("ProductDiscounts");
                 });
 #pragma warning restore 612, 618
         }

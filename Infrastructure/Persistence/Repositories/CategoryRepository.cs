@@ -39,7 +39,7 @@ public class CategoryRepository(SugarNestDbContext context)
     /// </returns>
     public async Task<Category?> GetValidById(Guid id)
     {
-        var existedEntity = await context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+        var existedEntity = await context.Categories.FirstOrDefaultAsync(c => c.CategoryId == id);
         if (existedEntity == null || existedEntity.IsDeleted || existedEntity.Status == Status.InActive)
             return null;
 

@@ -7,7 +7,7 @@ namespace Domain.Entities;
 public class Category : IDeletedTrackable, ICreatedTrackable, ILastUpdatedTrackable
 {
     [Key]
-    public Guid Id { get; set; }
+    public Guid CategoryId { get; set; }
 
     [Required]
     [StringLength(50)]
@@ -24,10 +24,11 @@ public class Category : IDeletedTrackable, ICreatedTrackable, ILastUpdatedTracka
 
     public DateTimeOffset DeletedAt { get; set; }
     public string? DeletedBy { get; set; }
-    public bool IsDeleted { get; set; }
-    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;
+    public bool IsDeleted { get; set; } = false;
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
     public string? CreatedBy { get; set; }
-    public DateTimeOffset LastUpdatedAt { get; set; }
+    public DateTimeOffset? LastUpdatedAt { get; set; }
     public string? LastUpdatedBy { get; set; }
 
+    public ICollection<Product> Products { get; set; } = [];
 }
