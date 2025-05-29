@@ -49,4 +49,5 @@ public class Product : IDeletedTrackable, ICreatedTrackable, ILastUpdatedTrackab
 
     public ICollection<ProductDiscount> ProductDiscounts { get; set; } = [];
 
+    public ICollection<CartItem> CartItems { get; set; } = [];
 }

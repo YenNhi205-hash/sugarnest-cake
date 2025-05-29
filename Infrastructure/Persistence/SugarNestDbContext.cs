@@ -35,11 +35,23 @@ public class SugarNestDbContext : DbContext
                 .WithOne(p => p.Product)
                 .HasForeignKey(pD => pD.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
+            p.HasMany(p => p.CartItems)
+                .WithOne(ci => ci.Product)
+                .HasForeignKey(ci => ci.ProductId)
+                .OnDelete(DeleteBehavior.SetNull);
         });
 
         modelBuilder.Entity<ProductDiscount>(pD =>
         {
             pD.HasIndex(pD => new { pD.IsActive, pD.StartTime, pD.EndTime });
+        });
+
+        modelBuilder.Entity<Cart>(ct =>
+        {
+            ct.HasMany(ct => ct.CartItems)
+                .WithOne(ci => ci.Cart)
+                .HasForeignKey(ci => ci.CartId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }
