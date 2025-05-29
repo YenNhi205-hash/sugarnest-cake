@@ -1,4 +1,5 @@
-﻿using Application.Features.Categories.Queries;
+﻿using Application.Features.Categories.Commands;
+using Application.Features.Categories.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Enums;
@@ -30,15 +31,19 @@ public class CategoriesController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public Task<IActionResult> GetById(Guid id)
+    public async Task<IActionResult> GetById(Guid id)
     {
-        throw new NotImplementedException();
+        var req = new GetCategoryByIdQuery(id);
+        var result = await mediator.Send(req);
+        return Ok(result);
     }
 
-    [HttpGet("/valid/{id}")]
-    public Task<IActionResult> GetValidById(Guid id)
+    [HttpGet("valid/{id}")]
+    public async Task<IActionResult> GetValidById(Guid id)
     {
-        throw new NotImplementedException();
+        var req = new GetValidCategoryByIdQuery(id);
+        var result = await mediator.Send(req);
+        return Ok(result);
     }
 
     [HttpPost]
@@ -54,14 +59,26 @@ public class CategoriesController(IMediator mediator) : ControllerBase
     }
 
     [HttpPatch("{id}")]
-    public Task<IActionResult> UpdateStatus(Guid id, Status status)
+    public async Task<IActionResult> UpdateStatus(Guid id, [FromQuery] Status status)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var req = new UpdateCategoryStatusCommand { Id = id, Status = status };
+            var result = await mediator.Send(req);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal error: {ex.Message}");
+        }
     }
 
-    [HttpDelete]
-    public Task<IActionResult> Delete(Guid id)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
     {
-        throw new NotImplementedException();
+        var req = new DeleteCategoryCommand { Id = id };
+        var result = await mediator.Send(req);
+        return Ok(result);
     }
+
 }

@@ -26,5 +26,9 @@ public interface ICategoryRepository : IBaseRepository<Category, Guid>
     /// <param name="id">The unique identifier of the category.</param>
     /// <returns>The category if found and valid; otherwise, null.</returns>
     Task<Category?> GetValidById(Guid id);
+
+    Task SaveAsync();
+
+
 }
 
